@@ -39,12 +39,6 @@ class Extension {
     const [x, y] = global.get_pointer();
     this.vdevice.notify_absolute_motion(global.get_current_time(), x, y);
   }
-
-  pointerAlreadyOnWindow(window) {
-    const [x, y] = global.get_pointer();
-    const rect = new Meta.Rectangle({ x, y, width: 1, height: 1 });
-    return rect.intersect(window.get_frame_rect())[0];
-  }
 }
 
 let extension = null;
