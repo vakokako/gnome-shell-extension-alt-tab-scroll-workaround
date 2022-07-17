@@ -1,12 +1,9 @@
-# GNOME Shell Extension Alt-Tab Move Mouse
+# GNOME Shell Extension Alt-Tab Scroll Workaround
 
-Move mouse pointer onto active window after Alt-Tab.
+Temporary fix for a bug that buffers the scroll between different windows (e.g., Chrome and VS Code)
 
-
-This extension is workaround of sloppy focus problems:
-
-- https://gitlab.gnome.org/GNOME/mutter/-/issues/888
-- https://gitlab.gnome.org/GNOME/mutter/-/issues/2058
+This extension is a workaround for the following bug:
+- https://github.com/Microsoft/vscode/issues/28795
 
 ## License
 GPLv3
