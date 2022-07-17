@@ -1,4 +1,4 @@
-# GNOME Shell Extension Alt-Tab Scroll Workaround
+# GNOME Shell Extension Alt+Tab Scroll Workaround
 
 Temporary fix for a bug that buffers the scroll between different windows (e.g., Chrome and VS Code)
 
@@ -24,7 +24,7 @@ make install
 ```
 
 Restart the GNOME Shell:
-- Press `Alt + F2`;
+- Press `Alt+F2`;
 - Type `restart`.
 
 > At this point, the extension should be enabled. If not:
