@@ -22,7 +22,7 @@ class Extension {
       "Main.activateWindow": Main.activateWindow
     };
     Main.activateWindow = (window, ...args) => {
-      this.movePointerMaybe();
+      this.movePointer();
       this.origMethods["Main.activateWindow"](window, ...args);
     };
     const seat = Clutter.get_default_backend().get_default_seat();
@@ -35,7 +35,7 @@ class Extension {
     Main.activateWindow = this.origMethods["Main.activateWindow"];
   }
 
-  movePointerMaybe() {
+  movePointer() {
     const [x, y] = global.get_pointer();
     this.vdevice.notify_absolute_motion(global.get_current_time(), x, y);
   }
