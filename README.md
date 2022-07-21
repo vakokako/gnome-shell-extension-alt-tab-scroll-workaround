@@ -20,11 +20,8 @@ make install
 
 Restart the GNOME Shell:
 
-- Wayland
-  - Log out and log in again.
-- X11
-  - Press `Alt+F2`;
-  - Type `restart`.
+- Press `Alt+F2`;
+- Type `restart`.
 
 > At this point, the extension should be enabled. If not:
 > ```
