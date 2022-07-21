@@ -7,11 +7,6 @@ The bug:
 
 ## Installation
 
-Install the requirements:
-```
-sudo apt install jq
-```
-
 Clone and enter this repository:
 ```
 git clone https://github.com/lucasresck/gnome-shell-extension-alt-tab-scroll-workaround.git
@@ -24,6 +19,7 @@ make install
 ```
 
 Restart the GNOME Shell:
+
 - Press `Alt+F2`;
 - Type `restart`.
 

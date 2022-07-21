@@ -1,4 +1,4 @@
-NAME :=  $(shell jq '.uuid' -r metadata.json)
+NAME :=  $(shell grep -Po 'uuid.* "\K[^"]*' metadata.json)
 BUNDLE = $(NAME).shell-extension.zip
 
 default:
