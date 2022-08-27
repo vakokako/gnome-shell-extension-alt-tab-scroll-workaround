@@ -1,3 +1,4 @@
+// Copyright (C) 2022  Lucas Resck
 // Copyright (C) 2021  Taiki Sugawara
 
 // This program is free software: you can redistribute it and/or modify
