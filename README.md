@@ -26,7 +26,7 @@ make install
 Restart the GNOME Shell:
 
 - Press `Alt+F2`;
-- Type `restart`.
+- Type `r` and press `Enter`.
 
 > At this point, the extension should be enabled. If not:
 > ```
