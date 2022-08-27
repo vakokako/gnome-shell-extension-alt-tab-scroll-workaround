@@ -6,9 +6,9 @@ The bug is described in several open issues:
 - https://github.com/Microsoft/vscode/issues/28795
 - https://github.com/pop-os/pop/issues/2331
 - https://github.com/atom/atom/issues/15482
-- https://gitlab.gnome.org/GNOME/mutter/-/issues/401
-- https://bugs.chromium.org/p/chromium/issues/detail?id=608246
-- https://bugs.chromium.org/p/chromium/issues/detail?id=807187
+- GitLab: [GNOME/mutter#401](https://gitlab.gnome.org/GNOME/mutter/-/issues/401)
+- Chromium: [chromium#608246](https://bugs.chromium.org/p/chromium/issues/detail?id=608246)
+- Chromium: [chromium#807187](https://bugs.chromium.org/p/chromium/issues/detail?id=807187)
 
 ## Installation
 
