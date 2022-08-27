@@ -17,39 +17,39 @@ const { Clutter, Meta } = imports.gi;
 const Main = imports.ui.main;
 
 class Extension {
-  constructor() {
-    this.origMethods = {
-      "Main.activateWindow": Main.activateWindow
-    };
-    Main.activateWindow = (window, ...args) => {
-      this.movePointer();
-      this.origMethods["Main.activateWindow"](window, ...args);
-    };
-    const seat = Clutter.get_default_backend().get_default_seat();
-    this.vdevice = seat.create_virtual_device(
-      Clutter.InputDeviceType.POINTER_DEVICE
-    );
-  }
+	constructor() {
+		this.origMethods = {
+			"Main.activateWindow": Main.activateWindow
+		};
+		Main.activateWindow = (window, ...args) => {
+			this.movePointer();
+			this.origMethods["Main.activateWindow"](window, ...args);
+		};
+		const seat = Clutter.get_default_backend().get_default_seat();
+		this.vdevice = seat.create_virtual_device(
+			Clutter.InputDeviceType.POINTER_DEVICE
+		);
+	}
 
-  destroy() {
-    Main.activateWindow = this.origMethods["Main.activateWindow"];
-  }
+	destroy() {
+		Main.activateWindow = this.origMethods["Main.activateWindow"];
+	}
 
-  movePointer() {
-    const [x, y] = global.get_pointer();
-    this.vdevice.notify_absolute_motion(global.get_current_time(), x, y);
-  }
+	movePointer() {
+		const [x, y] = global.get_pointer();
+		this.vdevice.notify_absolute_motion(global.get_current_time(), x, y);
+	}
 }
 
 let extension = null;
 
 /* exported enable */
 function enable() {
-  extension = new Extension();
+	extension = new Extension();
 }
 
 /* exported disable */
 function disable() {
-  extension.destroy();
-  extension = null;
+	extension.destroy();
+	extension = null;
 }
