@@ -10,9 +10,17 @@ The bug is described in several open issues:
 - Chromium: [chromium#608246](https://bugs.chromium.org/p/chromium/issues/detail?id=608246)
 - Chromium: [chromium#807187](https://bugs.chromium.org/p/chromium/issues/detail?id=807187)
 
-## Installation
+## Usage
 
-Clone and enter this repository:
+### Installation from GNOME Extensions
+
+The extension can be found at the GNOME Extensions website: [Alt+Tab Scroll Workaround](https://extensions.gnome.org/extension/5282/alttab-scroll-workaround/). Just open the page, turn the extension on, and you're ready to go.
+
+### Installation from GitHub
+
+If, instead, you prefer to install from this repository, follow the next steps.
+
+Clone and enter the repository:
 ```
 git clone https://github.com/lucasresck/gnome-shell-extension-alt-tab-scroll-workaround.git
 cd gnome-shell-extension-alt-tab-scroll-workaround
