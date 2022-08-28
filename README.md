@@ -18,7 +18,7 @@ The extension can be found at the GNOME Extensions website: [Alt+Tab Scroll Work
 
 ### Installation from GitHub
 
-If, instead, you prefer to install from this repository, follow the next steps.
+If, instead, you prefer to install it from this repository, follow the next steps.
 
 Clone and enter the repository:
 ```
