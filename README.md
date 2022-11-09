@@ -1,3 +1,10 @@
+## Useful links for gnome extension development
+- gnome shell ui imports: https://github.com/GNOME/gnome-shell/tree/main/js
+- gnome shell ui simplified reference: https://github.com/julio641742/gnome-shell-extension-reference/blob/master/REFERENCE.md
+- extension api docs (so far useless!!!): https://gjs-docs.gnome.org
+- writing extension guide: https://gjs.guide/extensions/development/creating.html
+- general gnome extensions page: https://wiki.gnome.org/Projects/GnomeShell/Extensions
+
 # GNOME Shell Extension Alt+Tab Scroll Workaround
 
 > Quick fix to the bug where scrolling in one application is repeated in another when switching between them using `Alt+Tab` (e.g., VS Code and Chrome)
