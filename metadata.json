@@ -1,11 +1,11 @@
 {
-  "uuid": "alt-tab-scroll-workaround@lucasresck.github.io",
-  "name": "Alt+Tab Scroll Workaround",
-  "description": "Temporary fix for a bug that buffers the scroll between different windows (e.g., Chrome and VS Code).",
-  "version": 2,
-  "shell-version": [
-    "42",
-    "43"
-  ],
-  "url": "https://github.com/lucasresck/gnome-shell-extension-alt-tab-scroll-workaround"
+    "uuid": "alt-tab-scroll-workaround@vakokako.github.io",
+    "name": "Alt+Tab Scroll Workaround vakokako",
+    "description": "Temporary fix for a bug that buffers the scroll between different windows (e.g., Chrome and VS Code).",
+    "version": 2,
+    "shell-version": [
+        "42",
+        "43"
+    ],
+    "url": "https://github.com/vakokako/gnome-shell-extension-alt-tab-scroll-workaround"
 }
