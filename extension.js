@@ -1,5 +1,5 @@
-// Copyright (C) 2022  vakokako
 // Copyright (C) 2022  Lucas Emanuel Resck
+// Copyright (C) 2022  vakokako
 // Copyright (C) 2021  Taiki Sugawara
 
 // This program is free software: you can redistribute it and/or modify
@@ -20,18 +20,7 @@ const Main = imports.ui.main;
 const altTab = imports.ui.altTab;
 
 let CurrentMonitorAppSwitcherPopup;
-
-function init() {
-    CurrentMonitorAppSwitcherPopup = GObject.registerClass(
-        class CurrentMonitorAppSwitcherPopup extends altTab.AppSwitcherPopup {
-            _finish(timestamp) {
-                if (this._currentWindow < 0) {
-                    extension.movePointer();
-                }
-                super._finish(timestamp);
-            }
-        });
-}
+let extension = null;
 
 class Extension {
     constructor() {
@@ -64,14 +53,23 @@ class Extension {
     }
 }
 
-let extension = null;
+function init() {
+    CurrentMonitorAppSwitcherPopup = GObject.registerClass(
+        class CurrentMonitorAppSwitcherPopup extends altTab.AppSwitcherPopup {
+            _finish(timestamp) {
+                if (this._currentWindow < 0) {
+                    extension.movePointer();
+                }
+                super._finish(timestamp);
+            }
+        }
+	);
+}
 
-/* exported enable */
 function enable() {
     extension = new Extension();
 }
 
-/* exported disable */
 function disable() {
     extension.destroy();
     extension = null;
