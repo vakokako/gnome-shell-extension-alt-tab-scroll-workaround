@@ -19,21 +19,18 @@ const { Clutter, Meta, GObject } = imports.gi;
 const Main = imports.ui.main;
 const altTab = imports.ui.altTab;
 
+let CurrentMonitorWindowSwitcherPopup;
 let CurrentMonitorAppSwitcherPopup;
 let extension = null;
 
 class Extension {
     constructor() {
         this.origMethods = {
-            "Main.activateWindow": Main.activateWindow,
+			"windowSwitcherPopup": altTab.WindowSwitcherPopup,
             "appSwitcherPopup": altTab.AppSwitcherPopup
         };
 
-        Main.activateWindow = (window, ...args) => {
-            this.movePointer();
-            this.origMethods["Main.activateWindow"](window, ...args);
-        };
-
+		altTab.WindowSwitcherPopup = CurrentMonitorWindowSwitcherPopup;
         altTab.AppSwitcherPopup = CurrentMonitorAppSwitcherPopup;
 
         const seat = Clutter.get_default_backend().get_default_seat();
@@ -42,18 +39,26 @@ class Extension {
         );
     }
 
-    destroy() {
-        Main.activateWindow = this.origMethods["Main.activateWindow"];
-        altTab.AppSwitcherPopup = this.origMethods["appSwitcherPopup"];
-    }
-
     movePointer() {
         const [x, y] = global.get_pointer();
         this.vdevice.notify_absolute_motion(global.get_current_time(), x, y);
     }
+
+    destroy() {
+		altTab.WindowSwitcherPopup = this.origMethods["windowSwitcherPopup"];
+        altTab.AppSwitcherPopup = this.origMethods["appSwitcherPopup"];
+    }
 }
 
 function init() {
+	CurrentMonitorWindowSwitcherPopup = GObject.registerClass(
+		class CurrentMonitorWindowSwitcherPopup extends altTab.WindowSwitcherPopup {
+			_finish() {
+				extension.movePointer();
+				super._finish();
+			}
+		}
+	);
     CurrentMonitorAppSwitcherPopup = GObject.registerClass(
         class CurrentMonitorAppSwitcherPopup extends altTab.AppSwitcherPopup {
             _finish(timestamp) {
