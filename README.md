@@ -1,8 +1,10 @@
 # GNOME Shell Extension Alt+Tab Scroll Workaround
 
-> Temporary fix for a bug that buffers the scroll between different windows (e.g., Chrome and VS Code).
+> Quick fix to the bug where scrolling in one application is repeated in another when switching between them using `Alt+Tab` (e.g., VS Code and Chrome)
 
-The bug is described in several open issues:
+As an example, after scrolling VS Code and switching to Chrome using `Alt+Tab` or `Super+Tab`, the VS Code scroll would be repeated in Chrome. Installing the extension should avoid this.
+
+This bug is described in several open issues:
 - https://github.com/Microsoft/vscode/issues/28795
 - https://github.com/pop-os/pop/issues/2331
 - https://github.com/atom/atom/issues/15482
