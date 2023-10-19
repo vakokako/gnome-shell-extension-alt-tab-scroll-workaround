@@ -24,58 +24,58 @@ let CurrentMonitorAppSwitcherPopup;
 let extension = null;
 
 class Extension {
-    constructor() {
-        this.origMethods = {
-			"windowSwitcherPopup": altTab.WindowSwitcherPopup,
-            "appSwitcherPopup": altTab.AppSwitcherPopup
-        };
+  constructor() {
+    this.origMethods = {
+      windowSwitcherPopup: altTab.WindowSwitcherPopup,
+      appSwitcherPopup: altTab.AppSwitcherPopup,
+    };
 
-		altTab.WindowSwitcherPopup = CurrentMonitorWindowSwitcherPopup;
-        altTab.AppSwitcherPopup = CurrentMonitorAppSwitcherPopup;
+    altTab.WindowSwitcherPopup = CurrentMonitorWindowSwitcherPopup;
+    altTab.AppSwitcherPopup = CurrentMonitorAppSwitcherPopup;
 
-        const seat = Clutter.get_default_backend().get_default_seat();
-        this.vdevice = seat.create_virtual_device(
-            Clutter.InputDeviceType.POINTER_DEVICE
-        );
-    }
+    const seat = Clutter.get_default_backend().get_default_seat();
+    this.vdevice = seat.create_virtual_device(
+      Clutter.InputDeviceType.POINTER_DEVICE
+    );
+  }
 
-    movePointer() {
-        const [x, y] = global.get_pointer();
-        this.vdevice.notify_absolute_motion(global.get_current_time(), x, y);
-    }
+  movePointer() {
+    const [x, y] = global.get_pointer();
+    this.vdevice.notify_absolute_motion(global.get_current_time(), x, y);
+  }
 
-    destroy() {
-		altTab.WindowSwitcherPopup = this.origMethods["windowSwitcherPopup"];
-        altTab.AppSwitcherPopup = this.origMethods["appSwitcherPopup"];
-    }
+  destroy() {
+    altTab.WindowSwitcherPopup = this.origMethods["windowSwitcherPopup"];
+    altTab.AppSwitcherPopup = this.origMethods["appSwitcherPopup"];
+  }
 }
 
 function init() {
-	CurrentMonitorWindowSwitcherPopup = GObject.registerClass(
-		class CurrentMonitorWindowSwitcherPopup extends altTab.WindowSwitcherPopup {
-			_finish() {
-				extension.movePointer();
-				super._finish();
-			}
-		}
-	);
-    CurrentMonitorAppSwitcherPopup = GObject.registerClass(
-        class CurrentMonitorAppSwitcherPopup extends altTab.AppSwitcherPopup {
-            _finish(timestamp) {
-                if (this._currentWindow < 0) {
-                    extension.movePointer();
-                }
-                super._finish(timestamp);
-            }
+  CurrentMonitorWindowSwitcherPopup = GObject.registerClass(
+    class CurrentMonitorWindowSwitcherPopup extends altTab.WindowSwitcherPopup {
+      _finish() {
+        extension.movePointer();
+        super._finish();
+      }
+    }
+  );
+  CurrentMonitorAppSwitcherPopup = GObject.registerClass(
+    class CurrentMonitorAppSwitcherPopup extends altTab.AppSwitcherPopup {
+      _finish(timestamp) {
+        if (this._currentWindow < 0) {
+          extension.movePointer();
         }
-	);
+        super._finish(timestamp);
+      }
+    }
+  );
 }
 
 function enable() {
-    extension = new Extension();
+  extension = new Extension();
 }
 
 function disable() {
-    extension.destroy();
-    extension = null;
+  extension.destroy();
+  extension = null;
 }
