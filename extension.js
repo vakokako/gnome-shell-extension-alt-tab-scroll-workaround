@@ -27,11 +27,16 @@ import * as Main from 'resource:///org/gnome/shell/ui/main.js';
 
 export default class AltTabScrollWorkaroundExtension extends Extension {
 
-    enable() {
-        this._injectionManager = new InjectionManager();
+    movePointer() {
+        const [x, y] = global.get_pointer();
+        this.vdevice.notify_absolute_motion(global.get_current_time(), x, y);
+    }
 
+    enable() {
+        const that = this;
+        this._injectionManager = new InjectionManager();
         const seat = Clutter.get_default_backend().get_default_seat();
-        const vdevice = seat.create_virtual_device(
+        this.vdevice = seat.create_virtual_device(
             Clutter.InputDeviceType.POINTER_DEVICE
         );
 
@@ -40,13 +45,25 @@ export default class AltTabScrollWorkaroundExtension extends Extension {
             '_finish',
             (originalMethod) => {
                 return function (timestamp) {
-                    const [x, y] = global.get_pointer();
-                    vdevice.notify_absolute_motion(global.get_current_time(), x, y);
+                    that.movePointer();
                     Main.activateWindow(this._items[this._selectedIndex].window);
-                    originalMethod.call(  
-                        this,
-                        timestamp
-                    );
+                    originalMethod.call(this, timestamp);
+                };
+            }
+        );
+
+        this._injectionManager.overrideMethod(
+            AltTab.AppSwitcherPopup.prototype,
+            '_finish',
+            (originalMethod) => {
+                return function (timestamp) {
+                    that.movePointer();
+                    let appIcon = this._items[this._selectedIndex];
+                    if (this._currentWindow < 0)
+                        appIcon.app.activate_window(appIcon.cachedWindows[0], timestamp);
+                    else if (appIcon.cachedWindows[this._currentWindow])
+                        Main.activateWindow(appIcon.cachedWindows[this._currentWindow], timestamp);
+                    originalMethod.call(this, timestamp);
                 };
             }
         );
