@@ -16,28 +16,56 @@
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 import * as AltTab from "resource:///org/gnome/shell/ui/altTab.js";
-import { Extension } from "resource:///org/gnome/shell/extensions/extension.js";
-import * as CustomSwitcherPopup from "./src/switcherPopup.js";
+import {
+  Extension,
+  InjectionManager,
+} from "resource:///org/gnome/shell/extensions/extension.js";
+import Clutter from "gi://Clutter";
+
+const seat = Clutter.get_default_backend().get_default_seat();
+const vdevice = seat.create_virtual_device(
+  Clutter.InputDeviceType.POINTER_DEVICE
+);
+
+function movePointer() {
+  const [x, y] = global.get_pointer();
+  vdevice.notify_absolute_motion(global.get_current_time(), x, y);
+}
 
 export default class AltTabScrollWorkaroundExtension extends Extension {
   constructor(metadata) {
     super(metadata);
 
-    this.origMethods = {
-      windowSwitcherPopup: AltTab.WindowSwitcherPopup,
-      appSwitcherPopup: AltTab.AppSwitcherPopup,
-    };
+    this._injectionManager = new InjectionManager();
   }
 
   enable() {
-    AltTab.WindowSwitcherPopup.prototype["_finish"] =
-      CustomSwitcherPopup.windowSwitcherPopup["_finish"];
-    AltTab.AppSwitcherPopup.prototype["_finish"] =
-      CustomSwitcherPopup.appSwitcherPopup["_finish"];
+    this._injectionManager.overrideMethod(
+      AltTab.WindowSwitcherPopup.prototype,
+      "_finish",
+      (originalMethod) => {
+        return function () {
+          movePointer();
+          originalMethod.call(this);
+        };
+      }
+    );
+
+    this._injectionManager.overrideMethod(
+      AltTab.AppSwitcherPopup.prototype,
+      "_finish",
+      (originalMethod) => {
+        return function (timestamp) {
+          if (this._currentWindow < 0) {
+            movePointer();
+          }
+          originalMethod.call(this, timestamp);
+        };
+      }
+    );
   }
 
   disable() {
-    AltTab.WindowSwitcherPopup = this.origMethods["windowSwitcherPopup"];
-    AltTab.AppSwitcherPopup = this.origMethods["appSwitcherPopup"];
+    this._injectionManager.clear();
   }
 }
