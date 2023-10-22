@@ -15,67 +15,45 @@
 // You should have received a copy of the GNU General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-const { Clutter, Meta, GObject } = imports.gi;
-const Main = imports.ui.main;
-const altTab = imports.ui.altTab;
+import Clutter from 'gi://Clutter';
 
-let CurrentMonitorWindowSwitcherPopup;
-let CurrentMonitorAppSwitcherPopup;
-let extension = null;
+import {
+    Extension,
+    InjectionManager,
+} from 'resource:///org/gnome/shell/extensions/extension.js';
 
-class Extension {
-    constructor() {
-        this.origMethods = {
-			"windowSwitcherPopup": altTab.WindowSwitcherPopup,
-            "appSwitcherPopup": altTab.AppSwitcherPopup
-        };
+import * as AltTab from 'resource:///org/gnome/shell/ui/altTab.js';
+import * as Main from 'resource:///org/gnome/shell/ui/main.js';
 
-		altTab.WindowSwitcherPopup = CurrentMonitorWindowSwitcherPopup;
-        altTab.AppSwitcherPopup = CurrentMonitorAppSwitcherPopup;
+export default class AltTabScrollWorkaroundExtension extends Extension {
+
+    enable() {
+        this._injectionManager = new InjectionManager();
 
         const seat = Clutter.get_default_backend().get_default_seat();
-        this.vdevice = seat.create_virtual_device(
+        const vdevice = seat.create_virtual_device(
             Clutter.InputDeviceType.POINTER_DEVICE
+        );
+
+        this._injectionManager.overrideMethod(
+            AltTab.WindowSwitcherPopup.prototype,
+            '_finish',
+            (originalMethod) => {
+                return function (timestamp) {
+                    const [x, y] = global.get_pointer();
+                    vdevice.notify_absolute_motion(global.get_current_time(), x, y);
+                    Main.activateWindow(this._items[this._selectedIndex].window);
+                    originalMethod.call(  
+                        this,
+                        timestamp
+                    );
+                };
+            }
         );
     }
 
-    movePointer() {
-        const [x, y] = global.get_pointer();
-        this.vdevice.notify_absolute_motion(global.get_current_time(), x, y);
+    disable() {
+        this._injectionManager.clear();
+        this._injectionManager = null;
     }
-
-    destroy() {
-		altTab.WindowSwitcherPopup = this.origMethods["windowSwitcherPopup"];
-        altTab.AppSwitcherPopup = this.origMethods["appSwitcherPopup"];
-    }
-}
-
-function init() {
-	CurrentMonitorWindowSwitcherPopup = GObject.registerClass(
-		class CurrentMonitorWindowSwitcherPopup extends altTab.WindowSwitcherPopup {
-			_finish() {
-				extension.movePointer();
-				super._finish();
-			}
-		}
-	);
-    CurrentMonitorAppSwitcherPopup = GObject.registerClass(
-        class CurrentMonitorAppSwitcherPopup extends altTab.AppSwitcherPopup {
-            _finish(timestamp) {
-                if (this._currentWindow < 0) {
-                    extension.movePointer();
-                }
-                super._finish(timestamp);
-            }
-        }
-	);
-}
-
-function enable() {
-    extension = new Extension();
-}
-
-function disable() {
-    extension.destroy();
-    extension = null;
 }
