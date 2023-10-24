@@ -22,6 +22,7 @@ import {
     InjectionManager,
 } from 'resource:///org/gnome/shell/extensions/extension.js';
 
+// Reference: https://gitlab.gnome.org/GNOME/gnome-shell/-/blob/main/js/ui/altTab.js?ref_type=heads
 import * as AltTab from 'resource:///org/gnome/shell/ui/altTab.js';
 
 export default class AltTabScrollWorkaroundExtension extends Extension {
