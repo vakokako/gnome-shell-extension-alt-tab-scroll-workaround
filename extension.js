@@ -23,7 +23,6 @@ import {
 } from 'resource:///org/gnome/shell/extensions/extension.js';
 
 import * as AltTab from 'resource:///org/gnome/shell/ui/altTab.js';
-import * as Main from 'resource:///org/gnome/shell/ui/main.js';
 
 export default class AltTabScrollWorkaroundExtension extends Extension {
 
@@ -40,29 +39,25 @@ export default class AltTabScrollWorkaroundExtension extends Extension {
             Clutter.InputDeviceType.POINTER_DEVICE
         );
 
+        // Fix for Alt+Tab (normal window switcher)
         this._injectionManager.overrideMethod(
             AltTab.WindowSwitcherPopup.prototype,
             '_finish',
             (originalMethod) => {
                 return function (timestamp) {
                     that.movePointer();
-                    Main.activateWindow(this._items[this._selectedIndex].window);
                     originalMethod.call(this, timestamp);
                 };
             }
         );
 
+        // Fix for Super+' (switch windows of the same application)
         this._injectionManager.overrideMethod(
             AltTab.AppSwitcherPopup.prototype,
             '_finish',
             (originalMethod) => {
                 return function (timestamp) {
                     that.movePointer();
-                    let appIcon = this._items[this._selectedIndex];
-                    if (this._currentWindow < 0)
-                        appIcon.app.activate_window(appIcon.cachedWindows[0], timestamp);
-                    else if (appIcon.cachedWindows[this._currentWindow])
-                        Main.activateWindow(appIcon.cachedWindows[this._currentWindow], timestamp);
                     originalMethod.call(this, timestamp);
                 };
             }
