@@ -25,20 +25,20 @@ import {
 // Reference: https://gitlab.gnome.org/GNOME/gnome-shell/-/blob/main/js/ui/altTab.js?ref_type=heads
 import * as AltTab from 'resource:///org/gnome/shell/ui/altTab.js';
 
+const seat = Clutter.get_default_backend().get_default_seat();
+const vdevice = seat.create_virtual_device(
+  Clutter.InputDeviceType.POINTER_DEVICE
+);
+
+function movePointer() {
+  const [x, y] = global.get_pointer();
+  vdevice.notify_absolute_motion(global.get_current_time(), x, y);
+}
+
 export default class AltTabScrollWorkaroundExtension extends Extension {
 
-    movePointer() {
-        const [x, y] = global.get_pointer();
-        this.vdevice.notify_absolute_motion(global.get_current_time(), x, y);
-    }
-
     enable() {
-        const that = this;
         this._injectionManager = new InjectionManager();
-        const seat = Clutter.get_default_backend().get_default_seat();
-        this.vdevice = seat.create_virtual_device(
-            Clutter.InputDeviceType.POINTER_DEVICE
-        );
 
         // Fix for Alt+Tab (normal window switcher)
         this._injectionManager.overrideMethod(
@@ -46,7 +46,7 @@ export default class AltTabScrollWorkaroundExtension extends Extension {
             '_finish',
             (originalMethod) => {
                 return function (timestamp) {
-                    that.movePointer();
+                    movePointer();
                     originalMethod.call(this, timestamp);
                 };
             }
@@ -58,7 +58,7 @@ export default class AltTabScrollWorkaroundExtension extends Extension {
             '_finish',
             (originalMethod) => {
                 return function (timestamp) {
-                    that.movePointer();
+                    movePointer();
                     originalMethod.call(this, timestamp);
                 };
             }
@@ -70,7 +70,7 @@ export default class AltTabScrollWorkaroundExtension extends Extension {
             '_finish',
             (originalMethod) => {
                 return function () {
-                    that.movePointer();
+                    movePointer();
                     originalMethod.call(this);            
                 };
             }
