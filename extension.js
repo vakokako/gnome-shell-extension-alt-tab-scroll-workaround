@@ -62,6 +62,18 @@ export default class AltTabScrollWorkaroundExtension extends Extension {
                 };
             }
         );
+
+        // Fix for Alt+Escape (switch windows directly)
+        this._injectionManager.overrideMethod(
+            AltTab.WindowCyclerPopup.prototype,
+            '_finish',
+            (originalMethod) => {
+                return function () {
+                    that.movePointer();
+                    originalMethod.call(this);            
+                };
+            }
+        );
     }
 
     disable() {
