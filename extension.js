@@ -40,7 +40,7 @@ export default class AltTabScrollWorkaroundExtension extends Extension {
     enable() {
         this._injectionManager = new InjectionManager();
 
-        // Fix for Alt+Tab (normal window switcher)
+        // Fix for Alt+Tab (switch windows)
         this._injectionManager.overrideMethod(
             AltTab.WindowSwitcherPopup.prototype,
             '_finish',
@@ -52,7 +52,7 @@ export default class AltTabScrollWorkaroundExtension extends Extension {
             }
         );
 
-        // Fix for Super+' (switch windows of the same application)
+        // Fix for Super+Tab (switch applications)
         this._injectionManager.overrideMethod(
             AltTab.AppSwitcherPopup.prototype,
             '_finish',
