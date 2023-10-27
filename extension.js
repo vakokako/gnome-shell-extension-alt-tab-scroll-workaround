@@ -45,9 +45,9 @@ export default class AltTabScrollWorkaroundExtension extends Extension {
             AltTab.WindowSwitcherPopup.prototype,
             '_finish',
             (originalMethod) => {
-                return function (timestamp) {
+                return function () {
                     movePointer();
-                    originalMethod.call(this, timestamp);
+                    originalMethod.call(this);
                 };
             }
         );
