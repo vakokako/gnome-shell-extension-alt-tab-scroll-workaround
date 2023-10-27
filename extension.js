@@ -58,7 +58,9 @@ export default class AltTabScrollWorkaroundExtension extends Extension {
             '_finish',
             (originalMethod) => {
                 return function (timestamp) {
-                    movePointer();
+                    if (this._currentWindow < 0) {
+                        movePointer();
+                    }
                     originalMethod.call(this, timestamp);
                 };
             }
