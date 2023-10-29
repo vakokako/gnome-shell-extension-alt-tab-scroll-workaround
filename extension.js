@@ -36,9 +36,12 @@ function movePointer() {
 }
 
 export default class AltTabScrollWorkaroundExtension extends Extension {
-    enable() {
+    constructor(metadata) {
+        super(metadata);
         this._injectionManager = new InjectionManager();
+    }
 
+    enable() {
         // Fix for Alt+Tab (switch windows)
         this._injectionManager.overrideMethod(
             AltTab.WindowSwitcherPopup.prototype,
@@ -80,6 +83,5 @@ export default class AltTabScrollWorkaroundExtension extends Extension {
 
     disable() {
         this._injectionManager.clear();
-        this._injectionManager = null;
     }
 }
