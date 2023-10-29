@@ -15,35 +15,34 @@
 // You should have received a copy of the GNU General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-import Clutter from 'gi://Clutter';
+import Clutter from "gi://Clutter";
 
 import {
     Extension,
     InjectionManager,
-} from 'resource:///org/gnome/shell/extensions/extension.js';
+} from "resource:///org/gnome/shell/extensions/extension.js";
 
 // Reference: https://gitlab.gnome.org/GNOME/gnome-shell/-/blob/main/js/ui/altTab.js?ref_type=heads
-import * as AltTab from 'resource:///org/gnome/shell/ui/altTab.js';
+import * as AltTab from "resource:///org/gnome/shell/ui/altTab.js";
 
 const seat = Clutter.get_default_backend().get_default_seat();
 const vdevice = seat.create_virtual_device(
-  Clutter.InputDeviceType.POINTER_DEVICE
+    Clutter.InputDeviceType.POINTER_DEVICE
 );
 
 function movePointer() {
-  const [x, y] = global.get_pointer();
-  vdevice.notify_absolute_motion(global.get_current_time(), x, y);
+    const [x, y] = global.get_pointer();
+    vdevice.notify_absolute_motion(global.get_current_time(), x, y);
 }
 
 export default class AltTabScrollWorkaroundExtension extends Extension {
-
     enable() {
         this._injectionManager = new InjectionManager();
 
         // Fix for Alt+Tab (switch windows)
         this._injectionManager.overrideMethod(
             AltTab.WindowSwitcherPopup.prototype,
-            '_finish',
+            "_finish",
             (originalMethod) => {
                 return function () {
                     movePointer();
@@ -55,7 +54,7 @@ export default class AltTabScrollWorkaroundExtension extends Extension {
         // Fix for Super+Tab (switch applications)
         this._injectionManager.overrideMethod(
             AltTab.AppSwitcherPopup.prototype,
-            '_finish',
+            "_finish",
             (originalMethod) => {
                 return function (timestamp) {
                     if (this._currentWindow < 0) {
@@ -69,11 +68,11 @@ export default class AltTabScrollWorkaroundExtension extends Extension {
         // Fix for Alt+Escape (switch windows directly)
         this._injectionManager.overrideMethod(
             AltTab.WindowCyclerPopup.prototype,
-            '_finish',
+            "_finish",
             (originalMethod) => {
                 return function () {
                     movePointer();
-                    originalMethod.call(this);            
+                    originalMethod.call(this);
                 };
             }
         );
