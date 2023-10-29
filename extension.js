@@ -1,3 +1,4 @@
+// Copyright (C) 2023  Lucas Delobelle
 // Copyright (C) 2022  Lucas Emanuel Resck
 // Copyright (C) 2022  vakokako
 // Copyright (C) 2021  Taiki Sugawara
