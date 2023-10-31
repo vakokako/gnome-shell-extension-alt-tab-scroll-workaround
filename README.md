@@ -12,6 +12,10 @@ This bug is described in several open issues:
 - Chromium: [chromium#608246](https://bugs.chromium.org/p/chromium/issues/detail?id=608246)
 - Chromium: [chromium#807187](https://bugs.chromium.org/p/chromium/issues/detail?id=807187)
 
+## GNOME 45!
+
+The extension is actively being ported to GNOME 45 in https://github.com/lucasresck/gnome-shell-extension-alt-tab-scroll-workaround/pull/21. Feel free to install the extension from there before it's officially supported. Also feel invited to contribute to it!
+
 ## Usage
 
 ### Installation from GNOME Extensions
