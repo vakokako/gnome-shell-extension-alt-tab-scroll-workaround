@@ -27,6 +27,8 @@ import {
 // Reference: https://gitlab.gnome.org/GNOME/gnome-shell/-/blob/main/js/ui/altTab.js?ref_type=heads
 import * as AltTab from "resource:///org/gnome/shell/ui/altTab.js";
 
+import * as Overview from "resource:///org/gnome/shell/ui/overview.js";
+
 const seat = Clutter.get_default_backend().get_default_seat();
 const vdevice = seat.create_virtual_device(
     Clutter.InputDeviceType.POINTER_DEVICE
@@ -74,6 +76,18 @@ export default class AltTabScrollWorkaroundExtension extends Extension {
         this._injectionManager.overrideMethod(
             AltTab.WindowCyclerPopup.prototype,
             "_finish",
+            (originalMethod) => {
+                return function () {
+                    movePointer();
+                    originalMethod.call(this);
+                };
+            }
+        );
+
+        // Fix for overview (hot corner or Super key) + mouse click
+        this._injectionManager.overrideMethod(
+            Overview.Overview.prototype,
+            '_showDone',
             (originalMethod) => {
                 return function () {
                     movePointer();
