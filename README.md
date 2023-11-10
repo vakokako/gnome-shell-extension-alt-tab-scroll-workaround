@@ -14,7 +14,7 @@ This bug is described in several open issues:
 
 ## GNOME 45!
 
-The extension also supports GNOME 45 now! It is already available at branch [`develop`](https://github.com/lucasresck/gnome-shell-extension-alt-tab-scroll-workaround/tree/develop), but it will be soon available at GNOME Extensions too. Follow the GitHub installation instructions but check out to the `develop` branch before installation.
+The extension also supports GNOME 45 now! It is already available at branch [`develop`](https://github.com/lucasresck/gnome-shell-extension-alt-tab-scroll-workaround/tree/develop), but it will be soon available at GNOME Extensions too. Follow the GitHub installation instructions but check out to the `develop` branch before installation. Make sure to close all windows before restarting the GNOME Shell, otherwise GNOME may crash.
 
 ## Usage
 
