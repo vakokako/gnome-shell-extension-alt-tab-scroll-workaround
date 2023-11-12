@@ -4,6 +4,8 @@
 
 As an example, after scrolling VS Code and switching to Chrome using `Alt+Tab`, `Super+Tab`, `Alt+Esc`, or overview (hot corner or `Super`) + mouse click, the VS Code scroll would be repeated in Chrome. Installing the extension should avoid this.
 
+**GNOME 45 supported!**
+
 This bug is described in several open issues:
 - https://github.com/Microsoft/vscode/issues/28795
 - https://github.com/pop-os/pop/issues/2331
@@ -11,10 +13,6 @@ This bug is described in several open issues:
 - GitLab: [GNOME/mutter#401](https://gitlab.gnome.org/GNOME/mutter/-/issues/401)
 - Chromium: [chromium#608246](https://bugs.chromium.org/p/chromium/issues/detail?id=608246)
 - Chromium: [chromium#807187](https://bugs.chromium.org/p/chromium/issues/detail?id=807187)
-
-## GNOME 45!
-
-The extension also supports GNOME 45 now! It is already available at branch [`develop`](https://github.com/lucasresck/gnome-shell-extension-alt-tab-scroll-workaround/tree/develop), but it will be soon available at GNOME Extensions too. Follow the GitHub installation instructions but check out to the `develop` branch before installation. Make sure to close all windows before restarting the GNOME Shell, otherwise GNOME may crash.
 
 ## Usage
 
