@@ -2,7 +2,7 @@
 
 > Quick fix to the bug where scrolling in one application is repeated in another when switching between them using `Alt+Tab` (e.g., VS Code and Chrome)
 
-As an example, after scrolling VS Code and switching to Chrome using `Alt+Tab` or `Super+Tab`, the VS Code scroll would be repeated in Chrome. Installing the extension should avoid this.
+As an example, after scrolling VS Code and switching to Chrome using `Alt+Tab`, `Super+Tab`, `Alt+Esc`, or overview (hot corner or `Super`) + mouse click, the VS Code scroll would be repeated in Chrome. Installing the extension should avoid this.
 
 This bug is described in several open issues:
 - https://github.com/Microsoft/vscode/issues/28795
@@ -46,6 +46,8 @@ Restart the GNOME Shell:
 > ```
 > make enable
 > ```
+> GNOME may also crashes if there are opened windows.
+> Make sure they are closed.
 
 ## License
 GPLv3
