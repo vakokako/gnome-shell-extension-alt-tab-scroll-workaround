@@ -29,19 +29,14 @@ import * as AltTab from "resource:///org/gnome/shell/ui/altTab.js";
 
 import * as Overview from "resource:///org/gnome/shell/ui/overview.js";
 
-const seat = Clutter.get_default_backend().get_default_seat();
-const vdevice = seat.create_virtual_device(
-    Clutter.InputDeviceType.POINTER_DEVICE
-);
-
-function movePointer() {
-    const [x, y] = global.get_pointer();
-    vdevice.notify_absolute_motion(global.get_current_time(), x, y);
-}
 
 export default class AltTabScrollWorkaroundExtension extends Extension {
     enable() {
         this._injectionManager = new InjectionManager();
+        const seat = Clutter.get_default_backend().get_default_seat();
+        this.vdevice = seat.create_virtual_device(
+            Clutter.InputDeviceType.POINTER_DEVICE
+        );
 
         // Fix for Alt+Tab (switch windows)
         this._injectionManager.overrideMethod(
@@ -92,6 +87,11 @@ export default class AltTabScrollWorkaroundExtension extends Extension {
                 };
             }
         );
+    }
+
+    movePointer() {
+        const [x, y] = global.get_pointer();
+        this.vdevice.notify_absolute_motion(global.get_current_time(), x, y);
     }
 
     disable() {
