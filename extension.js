@@ -43,8 +43,9 @@ export default class AltTabScrollWorkaroundExtension extends Extension {
             AltTab.WindowSwitcherPopup.prototype,
             "_finish",
             (originalMethod) => {
+                let that = this;
                 return function () {
-                    movePointer();
+                    that.movePointer();
                     originalMethod.call(this);
                 };
             }
@@ -55,9 +56,10 @@ export default class AltTabScrollWorkaroundExtension extends Extension {
             AltTab.AppSwitcherPopup.prototype,
             "_finish",
             (originalMethod) => {
+                let that = this;
                 return function (timestamp) {
                     if (this._currentWindow < 0) {
-                        movePointer();
+                        that.movePointer();
                     }
                     originalMethod.call(this, timestamp);
                 };
@@ -69,8 +71,9 @@ export default class AltTabScrollWorkaroundExtension extends Extension {
             AltTab.WindowCyclerPopup.prototype,
             "_finish",
             (originalMethod) => {
+                let that = this;
                 return function () {
-                    movePointer();
+                    that.movePointer();
                     originalMethod.call(this);
                 };
             }
@@ -81,8 +84,9 @@ export default class AltTabScrollWorkaroundExtension extends Extension {
             Overview.Overview.prototype,
             '_showDone',
             (originalMethod) => {
+                let that = this;
                 return function () {
-                    movePointer();
+                    that.movePointer();
                     originalMethod.call(this);
                 };
             }
