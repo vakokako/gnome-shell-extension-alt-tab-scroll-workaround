@@ -97,5 +97,6 @@ export default class AltTabScrollWorkaroundExtension extends Extension {
     disable() {
         this._injectionManager.clear();
         this._injectionManager = null;
+        this.vdevice = null;
     }
 }
