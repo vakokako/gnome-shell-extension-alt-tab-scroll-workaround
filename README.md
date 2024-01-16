@@ -7,7 +7,7 @@ As an example, after scrolling VS Code and switching to Chrome using `Alt+Tab`, 
 **GNOME 45 supported!**
 
 This bug is described in several open issues:
-- https://github.com/Microsoft/vscode/issues/28795
+- https://github.com/Microsoft/vscode/issues/28795 ([most commented VS Code bug!](https://github.com/microsoft/vscode/issues?q=is%3Aissue+is%3Aopen+sort%3Acomments-desc+label%3Abug))
 - https://github.com/pop-os/pop/issues/2331
 - https://github.com/atom/atom/issues/15482
 - GitLab: [GNOME/mutter#401](https://gitlab.gnome.org/GNOME/mutter/-/issues/401)
